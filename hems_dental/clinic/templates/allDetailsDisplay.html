@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Details Display</title>
+</head>
+<body>
+    <div>
+        {% for patient in patient_obj %}
+            <p>{{ patient.name }}</p>
+        {% endfor %}
+<!--     
+        <h2> {{ appointment_obj }} </h2>
+        {% comment %} <h2> {{ patient.patient_id }} </h2>
+        <h2> {{ billing.remarks }} </h2> {% endcomment %} -->
+ 
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Entry</title>
+</head>
+<body>
+    <form action="All_entries" method="post">
+        {% csrf_token %}
+        <label for="name">General :</label>
+        <input type="text" placeholder="General" name="general">
+        <br>
+        <label for="doctor_name">doctor_name :</label>
+        <input type="text" placeholder="doctor_name" name="doctor_name">
+        <br>
+        <label for="patient_name">patient_name :</label>
+        <input type="text" placeholder="patient_name" name="patient_name">
+        <br>
+        <label for="entry_time">entry_time :</label>
+        <input type="datetime" name="entry_time">
+        <br>
+        <input type="button" value="submit" name="submit">
+    </form>
+</body>
+</html>

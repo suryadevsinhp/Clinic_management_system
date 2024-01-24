@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Entery</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h3>Patient Entery</h3>
+        </div>
+        <form action="{% url 'patient_entery' %}" method="POST">
+            {% csrf_token%}
+            <table border="1mm">
+                <tr>
+                    <th>
+                        <label for="patient_name">Patient Name :</label>
+                    </th>
+                    <td>
+                        <input type="text" value="patient_name", name="patient_name">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="date_of_birth">Date of Birth :</label>
+                    </th>
+                    <td>
+                        <input type="date" value="date_of_birth", name="date_of_birth">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="gender">Gender :</label>
+                    </th>
+                    <td>
+                        <input type="text" value="gender", name="gender">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="blood_group">Blood Group :</label>
+                    </th>
+                    <td>
+                        <input type="text" value="blood_group", name="blood_group">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="email_id">Email :</label>
+                    </th>
+                    <td>
+                        <input type="email" value="email_id", name="email_id">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="address">Address :</label>
+                    </th>
+                    <td>
+                        <input type="text" value="address", name="address">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="mobile_number">Mobile Number :</label>
+                    </th>
+                    <td>
+                        <input type="text" value="mobile_number", name="mobile_number">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="submit" name="submit" id="submit">
+                    </td>
+                </tr>
+               
+            </table>
+        </form>
+    </div>
+    
+</body>
+</html>
