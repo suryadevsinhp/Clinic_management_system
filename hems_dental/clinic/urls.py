@@ -4,8 +4,10 @@ from .forms import *
 
 
 urlpatterns = [
+    path('',home_page, name='home_page'),
+    path('aboutUs/', aboutUs, name='aboutUs'),
+
     path('patiententry/',save_patient, name="patient_entery"),
-    # path('',home_page, name='home_page'),
     path('doctor/', addDoctor, name='addDoctor'),
     # path('addNewDoctor/', addNewDoctor, name='addNewDoctor'),
     path('allDetails/', allDetails, name='allDetails'),

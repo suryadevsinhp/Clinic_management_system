@@ -19,10 +19,10 @@ from django.urls import path, include
 from clinic import views
 
 urlpatterns = [
-    path('data_entry/', include('data_entry.urls')),
+    # path('data_entry/', include('data_entry.urls')),
     path('admin/', admin.site.urls),
-    path('hems_dental/', include('clinic.urls')),
-    path('',views.home_page, name='home_page'),
+    path('', include('clinic.urls')),
+    # path('',views.home_page, name='home_page'),
     # path('',include('home_page.html')),
     # path('doctor/',include('clinic.urls')),
 

@@ -5,6 +5,11 @@ from .forms import *
 
 # Create your views here.
 
+def aboutUs(request):
+    return render (request,'aboutUs.html')
+
+
+
 class PatientListView(ListView):
     #this class is made for displaying patents added data
     model = Patient
