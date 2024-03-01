@@ -5,9 +5,23 @@ from .forms import *
 
 # Create your views here.
 
+# yT Hospital management 
 def aboutUs(request):
     return render (request,'aboutUs.html')
 
+def home(request):
+    return render(request,'home.html')
+
+def contactus(request):
+    return render(request,'contactus.html')
+
+
+
+
+
+
+
+#=======================================================
 
 
 class PatientListView(ListView):
@@ -141,20 +155,22 @@ def addReview(request):
 
 
 # view for all details is below:
-def allDetails(request, id):
+def allDetails(request,id):
     if request.method=='POST':
         patientID= request.POST.get('patientID')
         patient_obj = Patient.objects.get(patient_id=patientID)
         appointment_obj = Appointment.objects.get(Patient_id=patientID)
         return render(request,'allDetailsDisplay.html', {'patient_obj': patient_obj, 'appointment_obj':appointment_obj})
     try:
-        # patientID = request.GET.get("patientID")
+        patientID = request.GET.get("patientID")
         patient_obj = Patient.objects.get(patient_id=patientID)
         appointment_obj = Appointment.objects.get(Patient_id=patientID)
         return render(request,'allDetailsDisplay.html', {'patient_obj': patient_obj, 'appointment_obj':appointment_obj})
     except:
         return HttpResponse("No patient of this id found : ")
     
+
+
 
 
     

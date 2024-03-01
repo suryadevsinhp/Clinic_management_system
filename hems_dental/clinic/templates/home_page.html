@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  {% include 'basePage.html' %}
+  <!-- {% include 'basePage.html' %} -->
+{% include "basePage.html" %}
+{% include "navigation.html" %}
 
   <head>
     <meta charset="UTF-8" />
@@ -10,7 +12,7 @@
 
   <body style="background-color: rgb(25, 25, 25)">
     <center>
-      {% block content %}
+      <!-- {% block content %} -->
       <h1 style="color: white">Home welcome Page</h1>
       <!-- main heding navigation bar -->
       <div style="background-color: rgb(76, 76, 77)">
@@ -63,10 +65,10 @@
           />
           <button type="submit">Find</button>
         </form>
-        <br />
+        <br /> 
         <br />
       </div>
-      {% endblock %}
+      <!-- {% endblock %} -->
     </center>
   </body>
 </html>
