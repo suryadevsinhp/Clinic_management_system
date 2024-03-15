@@ -25,7 +25,7 @@ urlpatterns = [
 
 
     # ---------------------
-    path('',home_page, name='home_page'),
+    path('home_page',home_page, name='home_page'),
  
     path('patiententry/',save_patient, name="patient_entery"),
     path('doctor/', addDoctor, name='addDoctor'),
