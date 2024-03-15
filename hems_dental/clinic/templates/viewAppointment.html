@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Appointments</title>
+    </head>
+    {% include "basePage.html" %}
+    {% include "navigation.html" %}
+    {% load static %}
+
+    <body>
+        {% block content %}
+        <div>
+            <div class="main_div">
+                <h2 class="homepage">Appointments View Page</h2>
+                <div>
+                    <table class="table table-hover" id="example">
+                        <thead>
+                            <tr>
+                                <th>Appointment ID</th>
+                                <th>Patient Name</th>
+                                <th>Doctor Name</th>
+                                <th>Purpose Of Visit</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in appointment %}
+                            <tr>
+                                <td>{{ i.appointment_id }}</td>
+                                <td>{{ i.Patient_id.name }}</td>
+                                <td>{{ i.doctor_id.name }}</td>
+                                <td>{{ i.specialization }}</td>
+                                <td>{{ i.date }}</td>
+                                <td>
+                                    <a href="{% url 'deleteAppointment' aid=i.appointment_id %}" onclick="return confirm ('Are you sure you want to delete appointment ?')" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endblock content %}
+        {% include "footer.html" %}
+    </body>
+
+</html>

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from .views import * 
 from .forms import *
 
 
@@ -8,6 +8,21 @@ urlpatterns = [
     path('home/',home,name ='home'),
     path('aboutus/', aboutUs, name='aboutUs'),
     path('contactus/', contactus, name='contactus'),
+    path('login_admin/', login_admin, name='login_admin'),
+    path('logout_admin/', logout_admin, name='logout_admin'),
+    path('index/', index, name='index'),
+    path('viewDoctor/', view_doctor, name='viewDoctor'),
+    path('viewPatient/', view_patient, name='viewPatient'),
+    path('viewAppointment/', view_appointment, name='viewAppointment'),
+    path('viewPrescription/', view_prescription, name='viewPrescription'),
+    path('viewBilling/', view_billing, name='viewBilling'),
+    path('deletePatient/<int:pid>/', delete_patient, name='deletePatient'),
+    path('deleteDoctor/<int:did>/', delete_doctor, name='deleteDoctor'),
+    path('deleteAppointment/<int:aid>/', delete_appointment, name='deleteAppointment'),
+    path('deletePrescription/<int:presc_id>/', delete_prescription, name='deletePrescription'),
+    path('deleteBilling/<int:bid>/', delete_billing, name='deleteBilling'),
+
+
 
     # ---------------------
     path('',home_page, name='home_page'),

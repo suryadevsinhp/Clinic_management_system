@@ -1,24 +1,36 @@
 {% include "basePage.html" %}
 {% include "navigation.html" %}
 
+<style>
+    .div_hover:hover{
+        box-shadow: 0 0 20px 0 rgba(0,0,0,3);
+        transform: translateY(-20px);
+        background-color: rgb(231, 228, 228);
+        border-radius: 10px;
+    }
+</style>
 
 {% block content %}
 <div class="container" style="margin-top: 50px;">
     <h1 class="text-center">This is contact us page</h1>
     <div class="row mt-5 text-center">
-        <div class="col-lg-3">
+        <div class="col-lg-3 div_hover" >
             <h4><i class="fas fa-phone-square">&nbsp; Contact Numbers :</i></h4>
             <p><a href="tel:+919921258333">+91 9921258333</a></p>
         </div>
-        <div class="col-lg-3">
-            <h4>Send e-mail :</h4>
+        <div class="col-lg-3 div_hover">
+            <h4><i class="fa fa-envelope-open" aria-hidden="true">&nbsp;Send e-mail :</i></h4>
+            <p><a href="mailto:patilsurya111@gmail.com">Patilsurya111@gmail.com</a></p>
         </div>
-        <div class="col-lg-3">
-            <h4>Clinic Address : </h4>
+        <div class="col-lg-3 div_hover">
+            <h4><i class="fa fa-address-card" aria-hidden="true">&nbsp;Clinic Address :</i></h4>
+            <p><a href="https://www.google.com/maps/place/HEMS+DENTAL+CLIINIC/@19.1194801,73.9742316,15z/data=!4m7!3m6!1s0x3bdd3b98f945b479:0xe0dc1c67900f330f!4b1!8m2!3d19.1177825!4d73.9739812!16s%2Fg%2F11cmr37jk4?authuser=0&entry=ttu">Locate Clinic Here</a> <br>You can find the location of clinic here</p>
         </div>
-        <div class="col-lg-3">
-            <h4>Clinic Timings : </h4>
+        <div class="col-lg-3 div_hover">
+            <h4><i class="fa fa-calendar" aria-hidden="true">&nbsp;Clinic Timings : </i></h4>
+            <p>10.30 Am to 1.30 Pm <br> 3.00 Pm to 7.00 Pm</p>
         </div>
     </div>
 </div>
 {% endblock content %}
+{% include "footer.html" %}

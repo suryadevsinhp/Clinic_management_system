@@ -29,16 +29,6 @@ class Patient (models.Model):
         return self.name
 
 
-class Appointment(models.Model):
-    appointment_id = models.AutoField(primary_key= True)
-    Patient_id = models.ForeignKey(Patient,on_delete=models.CASCADE) 
-    specialization = models.CharField(max_length=50)
-    doctor_name = models.CharField(max_length=50)
-    consultation_fee = models.IntegerField()
-    date = models.DateField()
-
-    def __str__(self) -> str:
-        return self.Patient_id.name
 
 class Doctor(models.Model):
     doctor_id = models.AutoField(primary_key=True)
@@ -53,10 +43,27 @@ class Doctor(models.Model):
     def __str__(self) -> str:
         return self.name
 
+class Appointment(models.Model):
+    appointment_id = models.AutoField(primary_key= True)
+    Patient_id = models.ForeignKey(Patient,on_delete=models.CASCADE) 
+    specialization = models.CharField(max_length=50)
+    doctor_id = models.ForeignKey(Doctor,on_delete = models.CASCADE)
+    consultation_fee = models.IntegerField()
+    date = models.DateField(default=timezone.now().date(),null=True)
+    # time = models.TimeField(null=True)
+
+    def __str__(self) -> str:
+        return self.Patient_id.name
 
 class Prescription(models.Model):
-    prescription_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    patient_id = models.AutoField(primary_key=True)
+    prescription_id = models.AutoField(primary_key=True)
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    doctor_id =  models.ForeignKey(Doctor ,on_delete=models.SET_NULL,blank=True,null=True)
+    appointment_id = models.ForeignKey(Appointment,on_delete=models.SET_NULL,blank=True,null=True)
+    medicine_name = models.CharField(max_length=200,  default='no specific medicine given')
+    dosage = models.CharField(max_length=200,  default='no specific medicine given')
+    duration = models.CharField(max_length=100,  default='no specific medicine given')
+    diagnosis = models.CharField(max_length =250,  default='no specific medicine given')
     medicine = models.CharField(max_length=500, default='no specific medicine given')
     advice = models.CharField(max_length=100, default='no specific advice')
     def __str__(self) -> str:
@@ -73,6 +80,7 @@ class Admin(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
 
 class Billing(models.Model):
     patient_id = models.ForeignKey(Patient,on_delete=models.CASCADE)

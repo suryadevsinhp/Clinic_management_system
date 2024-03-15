@@ -1,0 +1,57 @@
+{% include "basePage.html" %}
+{%  load static %}
+{% include "navigation.html" %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors View</title>
+</head>
+<body>
+    {% block content  %}
+    <div>
+        <h2 class="homepage">View Doctor</h2>
+        <table class="table table-hover" id="example">
+            <thead>
+                <tr>
+                    <th>Doctor_ID</th>
+                    <th>Doctors Name</th>
+                    <th>Age</th>
+                    <th>Gender :</th>
+                    <th>Experince :</th>
+                    <th>Languages :</th>
+                    <th>Mobile No :</th>
+                    <th>Email_ID</th>
+                    <th>Schedule</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in doctor %}
+                <tr>
+                    <td>{{i.doctor_id}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.age}}</td>
+                    <td>{% if i.gender == 'M'%} Male {% else %}{{i.gender}}{% endif %}</td>
+                    <td>{{i.experince}} Years</td>
+                    <td>{{i.languages}} </td>
+                    <td><a href="tel:{{i.mobile_number}}">{{i.mobile_number}} </a></td>
+                    <td><a href="mailto:{{i.email}}">{{i.email}}</a></td>
+                    <td>{{i.schedule}}</td>
+                    <td><a href="{% url 'deleteDoctor' did=i.doctor_id %}" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger">Delete</a></td>
+    
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endblock content  %}
+    
+</body>
+</html>
+{% include "footer.html" %}
+

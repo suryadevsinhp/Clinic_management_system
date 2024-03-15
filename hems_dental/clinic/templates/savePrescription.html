@@ -1,20 +1,24 @@
 <html>
+
     <head>
         <title>Save Prescription</title>
+        {% include "basePage.html" %}
+        {% include "navigation.html" %}
     </head>
+
     <body>
         <center>
             <div>
                 <h1> Save Prescription </h1>
                 {% if submitted %}
-                    Patients Prescription was saved succefully. !!!!
+                Patients Prescription was saved succefully. !!!!
 
                 {% else %}
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <input type="submit" value="submit">
-                    </form>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="submit">
+                </form>
 
                 {% endif %}
 
@@ -22,4 +26,6 @@
             </div>
         </center>
     </body>
+    {% include "footer.html" %}
+
 </html>

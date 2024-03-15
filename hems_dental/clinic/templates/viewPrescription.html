@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>View Prescription</title>
+
+    </head>
+
+    <body>
+        {% include "basePage.html" %}
+        {% include "navigation.html" %}
+        <!-- Main Content -->
+        <div class="container mainContent">
+            <div>
+                <h2>Prescription View</h2>
+            </div>
+            <table class="table table-hover" id="example">
+                <thead>
+                    <th>Prescription ID</th>
+                    <th>Patient Name</th>
+                    <th>Doctor Name</th>
+                    <th>Appointment ID</th>
+                    <th>Medication(s)</th>
+                    <th>Dosage Instructions</th>
+                    <th>Duration</th>
+                    <th>Diagnosis</th>
+                    <th>Advice</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    {% for i in prescription %}
+                    <tr>
+                        <td>{{i.prescription_id}}</td>
+                        <td>{{i.patient_id_id.name}}</td>
+                        <td>{{i.doctor_id.name}}</td>
+                        <td>{{i.appointment_id}}</td>
+                        <td>{{i.medications}}</td>
+                        <td>{{i.dosage}}</td>
+                        <td>{{i.duration}}</td>
+                        <td>{{i.diagnosis}}</td>
+                        <td>{{i.advice}}</td>
+                        <td><a href="{% url 'deletePrescription' presc_id=i.prescription_id %}"
+                                onclick="return confirm('Are you sure you wanto delete Prescription')"
+                                class="btn btn-danger">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+
+                    </tr>
+                </tbody>
+
+
+
+                </thead>
+            </table>
+        </div>
+
+    </body>
+
+</html>

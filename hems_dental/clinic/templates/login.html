@@ -1,0 +1,33 @@
+{% include "basePage.html" %}
+{% include "navigation.html" %}
+{% block content %}
+
+
+{% if error == "no" %}
+    <script>
+        alert("Logged in Successfully ! ");
+        window.location = "{% url 'index' %}";
+    </script>
+{% endif %}
+{% if error == "yes" %}
+    <script>
+        alert("Invalid login crediantials. Please...Try Again !! ");
+    </script>
+{% endif %}
+
+
+<div class="container">
+    <h2 class="text-center">Admin Login</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Admin Name</label>
+        <input type="text" class="form-control" name="username" id="">
+        <label>Password</label>
+        <input type="password " class="form-control" name="password" id="">
+
+        <input type="submit" value="login" class="form-control btn btn-primary">
+    </form>
+</div>
+
+{% endblock content %}
+{% include "footer.html" %}

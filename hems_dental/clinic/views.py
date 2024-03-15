@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirec
 from django.views.generic import ListView
 from .models import *
 from .forms import *
+from django.contrib.auth.models import User
+from django.contrib.auth import login , logout , authenticate
 
 # Create your views here.
 
@@ -15,8 +17,109 @@ def home(request):
 def contactus(request):
     return render(request,'contactus.html')
 
+def index(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
+    return render(request,'index.html')
+
+def login_admin(request):
+    error = ""
+    if request.method == "POST":
+        user_name = request.POST['username']
+        user_password = request.POST['password']
+        user = authenticate(username=user_name, password=user_password)
+        try:
+            if user.is_authenticated:
+                login(request,user)
+                error = "no"
+            else:
+                error="yes"
+        except:
+            error="yes"
+    # else:
+    #     return render(request,"login.html")
+    d={'error': error}
+    return render(request,"login.html",d)
+
+def logout_admin(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    logout(request)
+    return redirect('login_admin')
+
+            
+def view_doctor(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    doctors = Doctor.objects.all()
+    doc_obj = { 'doctor' : doctors }
+    return render(request, 'viewDoctor.html',doc_obj) 
+    
+def view_patient(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    patients = Patient.objects.all()
+    pat_obj = {'patient' : patients}
+    return render(request,'viewPatient.html',pat_obj)  
+
+def delete_patient(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    patient = Patient.objects.filter(patient_id=pid)
+    patient.delete()    
+    remaining_patients = Patient.objects.all()
+    return render(request, 'viewPatient.html',{ 'patient' : remaining_patients })
 
 
+def delete_doctor(request, did):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    doctor = Doctor.objects.filter(doctor_id=did)
+    doctor.delete()    
+    # remaining_doctors = Doctor.objects.all()
+    # return render(request, 'viewDoctor.html', {'doctor': remaining_doctors})  # # to skip this 2 lines we can use direct redirect() and return html page 
+    return redirect('viewDoctor')
+
+   
+def view_appointment(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    appointment = Appointment.objects.all()
+    p_name = Patient.objects.all()
+    doc_name = Doctor.objects.all()
+    return render(request,'viewAppointment.html', {'appointment':appointment, 'p_name':p_name, 'doc_name':doc_name})
+
+def delete_appointment(request, aid):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    app = Appointment.objects.filter(appointment_id = aid)
+    app.delete()
+    return redirect('viewAppointment')
+
+def view_prescription(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    prescription = Prescription.objects.all()
+    return render (request,"viewPrescription.html",{"prescription":prescription})
+
+
+def delete_prescription(request, presc_id):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    del_presc = Prescription.objects.filter(prescription_id=presc_id)
+    del_presc.delete()
+    return redirect('viewPrescription')
+
+def view_billing(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    billing = Billing.objects.all()
+    return  render(request,'viewBilling.html',{'billing':billing})
+
+def delete_billing(request, bid):
+    bill = Billing.objects.filter(bill_id=bid)
+    bill.delete()
+    return redirect('viewBilling')
 
 
 
@@ -50,7 +153,7 @@ def save_patient(request):
         mob = request.POST.get("mobile_number")
         new_patient = Patient(name=name, date_of_birth=dob,gender=gender,blood_group=blood_group,email_id=email,address=address,mobile_number=mob)
         new_patient.save()
-        return HttpResponse ("Data saved")
+        return redirect('viewPatient')
         
     return render( request,'savePatient.html')
 
@@ -84,7 +187,7 @@ def addDoctor(request):
         docForm = Doctor_form(request.POST)
         if docForm.is_valid():
             docForm.save()
-            return HttpResponse('success')
+            return redirect('viewDoctor')
                
     else:
         docForm = Doctor_form()
@@ -114,7 +217,7 @@ def addPrescription(request):
         form = PrescriptionForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse("Prescription is saved")
+            return redirect('viewPrescription')
     else:
         form = PrescriptionForm
         if 'submitted' in request.GET:
@@ -129,7 +232,7 @@ def addBilling(request):
         form = BillingForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse("Billing Data is saved sucessfully")
+            return redirect('viewBilling')
         
     else:
         form = BillingForm

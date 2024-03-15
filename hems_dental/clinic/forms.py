@@ -22,7 +22,9 @@ class AppointmentForm(ModelForm):
 class PrescriptionForm(ModelForm):
     class Meta:
         model = Prescription
-        fields = ('prescription_id', 'patient_id', 'medicine', 'advice')
+        fields = "__all__"
+
+        # fields = ('prescription_id', 'patient_id', 'medicine', 'advice')
 
 # Billing form 
 

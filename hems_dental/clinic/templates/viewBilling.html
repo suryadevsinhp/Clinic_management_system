@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Billing view</title>
+    </head>
+
+    <body>
+        {% include "basePage.html" %}
+        {% include "navigation.html" %}
+        {% load static %}
+        <div>
+            <div>
+                <h2 class="homepage">Billing view</h2>
+            </div>
+            <div>
+                <table class="table table-hover" id="example">
+                    <thead>
+                        <th>Billing ID</th>
+                        <th>Patient ID</th>
+                        <th>Patient Name</th>
+                        <th>Billing Amount</th>
+                        <th>Remarks</th>
+                        <Th>Date</Th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        {% for i in billing %}
+                        <td>{{i.bill_id}}</td>
+                        <td>{{i.patient_id}}</td>
+                        <td>{{i.patient_id.name}}</td>
+                        <td>Rs {{i.amount}}</td>
+                        <td>{{i.remarks}}</td>
+                        <td>{{i.date|date:"Y-m-d H:i:s"}}</td>
+                        <td><a href="/deleteBilling/{{i.bill_id}}" onclick="return confirm('Are you sure you want to delete bill data ?')"class="btn btn-danger">Delete</a></td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% include "footer.html" %}
+
+    </body>
+
+</html>

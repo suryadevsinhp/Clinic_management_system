@@ -1,0 +1,55 @@
+{% include "basePage.html" %}
+{% include "navigation.html" %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>View Patient</title>
+    </head>
+
+    <body>
+        <h2 class="homepage">Patient View Page</h2>
+
+        <!--  Displaying the patient information -->
+        <div>
+            <table class="table table-hover" id="example">
+                <thead>
+                    <tr>
+                        <th>Patient_id</th>
+                        <th>Patient Name</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                        <th>Phone Number</th>
+                        <th>Email Address</th>
+                        <th>Address</th>
+                        <th>Blood Group</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in patient %}
+                    <tr>
+                        <td>{{i.patient_id}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.date_of_birth|date:"Y-m-d"}}</td>
+                        <td>{{i.gender}}</td>
+                        <td><a href="tel:{{i.mobile_number}}">{{i.mobile_number}} </a></td>
+                        <td><a href="mailto:{{i.email}}">{{i.email_id}}</a></td>
+                        <td>{{i.address}}</td>
+                        <td>{{i.blood_group}}</td>
+                        <td>
+                            <a href="{% url 'deletePatient' pid=i.patient_id %}" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger">Delete</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+            </table>
+
+        </div>
+
+    </body>
+
+</html>
+{% include "footer.html" %}
