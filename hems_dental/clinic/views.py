@@ -8,8 +8,7 @@ from django.contrib.auth import login , logout , authenticate
 # Create your views here.
 
 # yT Hospital management 
-def ani_login(request):
-    return render(request, 'login02.html')
+
 def aboutUs(request):
     return render (request,'aboutUs.html')
 
