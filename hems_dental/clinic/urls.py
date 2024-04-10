@@ -8,7 +8,9 @@ urlpatterns = [
     path('home/',home,name ='home'),
     path('aboutus/', aboutUs, name='aboutUs'),
     path('contactus/', contactus, name='contactus'),
+    
     path('login_admin/', login_admin, name='login_admin'),
+    path('login02/', ani_login, name='login02'),
     path('logout_admin/', logout_admin, name='logout_admin'),
     path('index/', index, name='index'),
     path('viewDoctor/', view_doctor, name='viewDoctor'),
@@ -21,6 +23,8 @@ urlpatterns = [
     path('deleteAppointment/<int:aid>/', delete_appointment, name='deleteAppointment'),
     path('deletePrescription/<int:presc_id>/', delete_prescription, name='deletePrescription'),
     path('deleteBilling/<int:bid>/', delete_billing, name='deleteBilling'),
+    path('allDetailsDisplay/<int:pid>/', all_details_display, name='allDetailsDisplay'),
+    path('editPatient/<int:pid>/', edit_patient, name='editPatient'),
 
 
 

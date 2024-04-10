@@ -8,6 +8,8 @@ from django.contrib.auth import login , logout , authenticate
 # Create your views here.
 
 # yT Hospital management 
+def ani_login(request):
+    return render(request, 'login02.html')
 def aboutUs(request):
     return render (request,'aboutUs.html')
 
@@ -19,7 +21,7 @@ def contactus(request):
 
 def index(request):
     if not request.user.is_authenticated:
-        return redirect('/login/')
+        return redirect('/login_admin/')
     return render(request,'index.html')
 
 def login_admin(request):
@@ -43,28 +45,28 @@ def login_admin(request):
 
 def logout_admin(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     logout(request)
     return redirect('login_admin')
 
             
 def view_doctor(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     doctors = Doctor.objects.all()
     doc_obj = { 'doctor' : doctors }
     return render(request, 'viewDoctor.html',doc_obj) 
     
 def view_patient(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     patients = Patient.objects.all()
     pat_obj = {'patient' : patients}
     return render(request,'viewPatient.html',pat_obj)  
 
 def delete_patient(request, pid):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     patient = Patient.objects.filter(patient_id=pid)
     patient.delete()    
     remaining_patients = Patient.objects.all()
@@ -73,7 +75,7 @@ def delete_patient(request, pid):
 
 def delete_doctor(request, did):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     doctor = Doctor.objects.filter(doctor_id=did)
     doctor.delete()    
     # remaining_doctors = Doctor.objects.all()
@@ -83,7 +85,7 @@ def delete_doctor(request, did):
    
 def view_appointment(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     appointment = Appointment.objects.all()
     p_name = Patient.objects.all()
     doc_name = Doctor.objects.all()
@@ -91,28 +93,28 @@ def view_appointment(request):
 
 def delete_appointment(request, aid):
     if not  request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     app = Appointment.objects.filter(appointment_id = aid)
     app.delete()
     return redirect('viewAppointment')
 
 def view_prescription(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     prescription = Prescription.objects.all()
     return render (request,"viewPrescription.html",{"prescription":prescription})
 
 
 def delete_prescription(request, presc_id):
     if not  request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     del_presc = Prescription.objects.filter(prescription_id=presc_id)
     del_presc.delete()
     return redirect('viewPrescription')
 
 def view_billing(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('login_admin')
     billing = Billing.objects.all()
     return  render(request,'viewBilling.html',{'billing':billing})
 
@@ -120,6 +122,20 @@ def delete_billing(request, bid):
     bill = Billing.objects.filter(bill_id=bid)
     bill.delete()
     return redirect('viewBilling')
+
+
+def edit_patient(request, pid):
+    pass
+
+
+def all_details_display(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
+    display_patient = Patient.objects.filter(patient_id=pid)
+    display_appointment = Appointment.objects.filter(Patient_id_id=pid)
+    display_prescription = Prescription.objects.filter(patient_id_id=pid)
+    return render (request,'allDetailsDisplay.html',{'display_patient': display_patient,'display_appointment': display_appointment, 'display_prescription': display_prescription })
+    
 
 
 
@@ -134,6 +150,8 @@ class PatientListView(ListView):
     context_object_name = 'patients'
 
 def addNewPatient(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
     return render(request,'savePatient.html',)
 
 
@@ -143,6 +161,8 @@ def home_page(request):
 # view for all save patients is below:
 # # #------------ * Html form is used to get form data * ---------------------------
 def save_patient(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
     if request.method == "POST":
         name=request.POST.get('patient_name')
         dob =request.POST.get("date_of_birth")
@@ -183,6 +203,8 @@ def save_patient(request):
 # === NEW DOCTOR ADD VIEW IS CREATED HERE ==========
 
 def addDoctor(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
     if request.method == 'POST':
         docForm = Doctor_form(request.POST)
         if docForm.is_valid():
@@ -198,6 +220,8 @@ def addDoctor(request):
 
 # view for all Appointment is below:
 def addAppointment(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
     if request.method =='POST':
         appForm = AppointmentForm(request.POST)
         if appForm.is_valid():
@@ -212,6 +236,8 @@ def addAppointment(request):
 
 # view for all Prescription is below:
 def addPrescription(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
     submitted = False
     if request.method == "POST":
         form = PrescriptionForm(request.POST)
@@ -228,6 +254,8 @@ def addPrescription(request):
 
 # view for billimg
 def addBilling(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
     if request.method == 'POST':
         form = BillingForm(request.POST)
         if form.is_valid():
@@ -259,6 +287,8 @@ def addReview(request):
 
 # view for all details is below:
 def allDetails(request,id):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
     if request.method=='POST':
         patientID= request.POST.get('patientID')
         patient_obj = Patient.objects.get(patient_id=patientID)

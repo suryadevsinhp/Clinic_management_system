@@ -1,5 +1,5 @@
 from django.db import models
-from phonenumber_field import phonenumber
+from phonenumber_field import phonenumber # pip install phonenumber_field
 from django.utils import timezone
 
 # Hems Clinic Models are made here.

@@ -1,21 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Details Display</title>
-</head>
-<body>
-    <div>
-        {% for patient in patient_obj %}
-            <p>{{ patient.name }}</p>
-        {% endfor %}
-<!--     
-        <h2> {{ appointment_obj }} </h2>
-        {% comment %} <h2> {{ patient.patient_id }} </h2>
-        <h2> {{ billing.remarks }} </h2> {% endcomment %} -->
- 
-    </div>
-    
-</body>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>All Details Display</title>
+    </head>
+
+    <body>
+        
+        {% include "basePage.html" %}
+        {% include "navigation.html" %}
+        <div>
+            <table class="table table-hover" id="example">
+                <thead>
+                    <tr>
+                        <th>Patient_id</th>
+                        <th>Patient Name</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                        <th>Phone Number</th>
+                        <th>Email Address</th>
+                        <th>Address</th>
+                        <th>Blood Group</th>
+                        <th>Doctor Name</th>
+                        <th>Appointment ID</th>
+                        <th>Medication(s)</th>
+                        <th>Dosage Instructions</th>
+                        <th>Duration</th>
+                        <th>Diagnosis</th>
+                        <th>Advice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in display_patient %}
+                    <tr>
+                        <td>{{i.patient_id}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.date_of_birth|date:"Y-m-d"}}</td>
+                        <td>{{i.gender}}</td>
+                        <td><a href="tel:{{i.mobile_number}}">{{i.mobile_number}} </a></td>
+                        <td><a href="mailto:{{i.email}}">{{i.email_id}}</a></td>
+                        <td>{{i.address}}</td>
+                        <td>{{i.blood_group}}</td>
+                        {% for j in display_prescription %}
+                        <td>{{j.doctor_id.name}}</td>
+                        <td>{{j.appointment_id}}</td>
+                        <td>{{j.medicine_name}}</td>
+                        <td>{{j.dosage}}</td>
+                        <td>{{j.duration}}</td>
+                        <td>{{j.diagnosis}}</td>
+                        <td>{{j.advice}}</td>
+
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+            </table>
+        </div>
+
+    </body>
+
 </html>

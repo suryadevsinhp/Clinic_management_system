@@ -32,7 +32,8 @@
                     {% for i in patient %}
                     <tr>
                         <td>{{i.patient_id}}</td>
-                        <td>{{i.name}}</td>
+                        <td><a href="{% url 'allDetailsDisplay' pid=i.patient_id %}">
+                            {{i.name}}</a></td>
                         <td>{{i.date_of_birth|date:"Y-m-d"}}</td>
                         <td>{{i.gender}}</td>
                         <td><a href="tel:{{i.mobile_number}}">{{i.mobile_number}} </a></td>
