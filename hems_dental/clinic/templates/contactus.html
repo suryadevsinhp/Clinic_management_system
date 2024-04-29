@@ -1,13 +1,9 @@
+{% load static %}
 {% include "basePage.html" %}
 {% include "navigation.html" %}
 
 <style>
-    .div_hover:hover{
-        box-shadow: 0 0 20px 0 rgba(0,0,0,3);
-        transform: translateY(-20px);
-        background-color: rgb(231, 228, 228);
-        border-radius: 10px;
-    }
+    
 </style>
 
 {% block content %}
@@ -18,7 +14,7 @@
             <h4><i class="fas fa-phone-square">&nbsp; Contact Numbers :</i></h4>
             <p><a href="tel:+919921258333">+91 9921258333</a></p>
         </div>
-        <div class="col-lg-3 div_hover">
+        <div class="col-lg-3 div_hover"> 
             <h4><i class="fa fa-envelope-open" aria-hidden="true">&nbsp;Send e-mail :</i></h4>
             <p><a href="mailto:patilsurya111@gmail.com">Patilsurya111@gmail.com</a></p>
         </div>
@@ -32,5 +28,5 @@
         </div>
     </div>
 </div>
-{% endblock content %}
 {% include "footer.html" %}
+{% endblock content %}

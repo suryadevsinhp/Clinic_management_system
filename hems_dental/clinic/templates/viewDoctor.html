@@ -45,19 +45,23 @@
                         <td><a href="tel:{{i.mobile_number}}">{{i.mobile_number}} </a></td>
                         <td><a href="mailto:{{i.email}}">{{i.email}}</a></td>
                         <td>{{i.schedule}}</td>
-                        <td>
+                        <td colspan="2">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
                                     <a href="{% url 'deleteDoctor' did=i.doctor_id %}"
                                         onclick="return confirm('Are you sure you want to delete?')"
                                         class="btn btn-danger">Delete</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{% url 'deleteDoctor' did=i.doctor_id %}"
-                                        onclick="return confirm('Are you sure you want to delete?')"
-                                        class="btn btn-danger">Update</a>
-                                </li>
                             </ul>
+
+                            <UL class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a href="{% url 'updateDoctor' did=i.doctor_id %}"
+                                        onclick="return confirm('Are you sure you want to update?')"
+                                        class="btn btn-primary">Update</a>
+                                </li>
+                            </UL>
+
                         </td>
                         {% endfor %}
                     </tr>

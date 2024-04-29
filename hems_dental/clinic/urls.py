@@ -17,6 +17,10 @@ urlpatterns = [
     path('viewAppointment/', view_appointment, name='viewAppointment'),
     path('viewPrescription/', view_prescription, name='viewPrescription'),
     path('viewBilling/', view_billing, name='viewBilling'),
+
+    # update
+    path('updateDoctor/<int:did>/', updateDoctor, name= 'updateDoctor'),
+    path('updatePatient/<int:pid>/',updatePatient, name='updatePatient'),
     path('deletePatient/<int:pid>/', delete_patient, name='deletePatient'),
     path('deleteDoctor/<int:did>/', delete_doctor, name='deleteDoctor'),
     path('deleteAppointment/<int:aid>/', delete_appointment, name='deleteAppointment'),
@@ -27,8 +31,11 @@ urlpatterns = [
 
 
 
+
+
     # ---------------------
     path('',home_page, name='home_page'),
+    path('index',index, name='index'),
  
     path('patiententry/',save_patient, name="patient_entery"),
     path('doctor/', addDoctor, name='addDoctor'),

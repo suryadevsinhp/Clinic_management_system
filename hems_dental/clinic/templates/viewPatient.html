@@ -42,6 +42,7 @@
                         <td>{{i.blood_group}}</td>
                         <td>
                             <a href="{% url 'deletePatient' pid=i.patient_id %}" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger">Delete</a>
+                            <a href="{% url 'updatePatient' pid=i.patient_id %}" onclick="return confirm('Are you sure you want to update?')" class="btn btn-danger">Update</a>
                         </td>
 
                     </tr>

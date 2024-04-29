@@ -15,6 +15,9 @@ def aboutUs(request):
 def home(request):
     return render(request,'home.html')
 
+def index(request):
+    return render(request,'index.html')
+
 def contactus(request):
     return render(request,'contactus.html')
 
@@ -49,12 +52,7 @@ def logout_admin(request):
     return redirect('login_admin')
 
             
-def view_doctor(request):
-    if not request.user.is_authenticated:
-        return redirect('login_admin')
-    doctors = Doctor.objects.all()
-    doc_obj = { 'doctor' : doctors }
-    return render(request, 'viewDoctor.html',doc_obj) 
+
     
 def view_patient(request):
     if not request.user.is_authenticated:
@@ -62,6 +60,20 @@ def view_patient(request):
     patients = Patient.objects.all()
     pat_obj = {'patient' : patients}
     return render(request,'viewPatient.html',pat_obj)  
+
+
+def updatePatient(request,pid):
+    patient = Patient.objects.get(patient_id = pid)
+    form = Patient_form(instance=patient)
+    if request.method=='POST':
+        form =Patient_form(request.POST, instance=patient)
+        if form.is_valid():
+            form.save()
+            return redirect('viewPatients') 
+    else:
+        args =Patient_form(instance=patient)
+        return render(request,'savePatient.html',{'args':args})        
+
 
 def delete_patient(request, pid):
     if not request.user.is_authenticated:
@@ -71,15 +83,6 @@ def delete_patient(request, pid):
     remaining_patients = Patient.objects.all()
     return render(request, 'viewPatient.html',{ 'patient' : remaining_patients })
 
-
-def delete_doctor(request, did):
-    if not request.user.is_authenticated:
-        return redirect('login_admin')
-    doctor = Doctor.objects.filter(doctor_id=did)
-    doctor.delete()    
-    # remaining_doctors = Doctor.objects.all()
-    # return render(request, 'viewDoctor.html', {'doctor': remaining_doctors})  # # to skip this 2 lines we can use direct redirect() and return html page 
-    return redirect('viewDoctor')
 
    
 def view_appointment(request):
@@ -199,7 +202,8 @@ def save_patient(request):
     
 #     return render(request,"saveDoctor.html",{'docForm':docForm})
 
-# === NEW DOCTOR ADD VIEW IS CREATED HERE ==========
+
+'''# === ADD, UPDATE, VIEW, DELETE VIEW FOR DOCTOR IS CREATED HERE =========='''
 
 def addDoctor(request):
     if not request.user.is_authenticated:
@@ -216,6 +220,37 @@ def addDoctor(request):
     return render(request, 'saveDoctor.html', {'docForm': docForm})
 
 
+# update doctor view:
+
+def updateDoctor(request, did):
+    doctors = Doctor.objects.get(doctor_id=did)
+    if request.method=='POST':
+        docForm = Doctor_form(request.POST, instance=doctors)
+        if docForm.is_valid():
+            docForm.save()
+            return redirect('viewDoctor')
+    else:
+        docForm = Doctor_form(instance=doctors)
+    return render(request,'saveDoctor.html',{'docForm':docForm})
+
+
+
+def view_doctor(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
+    doctors = Doctor.objects.all()
+    doc_obj = { 'doctor' : doctors }
+    return render(request, 'viewDoctor.html',doc_obj) 
+
+
+def delete_doctor(request, did):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
+    doctor = Doctor.objects.filter(doctor_id=did)
+    doctor.delete()    
+    # remaining_doctors = Doctor.objects.all()
+    # return render(request, 'viewDoctor.html', {'doctor': remaining_doctors})  # # to skip this 2 lines we can use direct redirect() and return html page 
+    return redirect('viewDoctor')
 
 # view for all Appointment is below:
 def addAppointment(request):

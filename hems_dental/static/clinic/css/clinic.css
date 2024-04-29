@@ -1,0 +1,40 @@
+.button_container{
+        /* margin-top: 100px; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 250px;
+        background-color: #494b4b;
+        padding: 9px;
+}
+
+.home_page_button {
+    margin: 20px;
+    width: 110px;
+    height: 100px;
+    background-color: rgb(46, 44, 44);
+    box-shadow: 2px  15px 25px rgba(38, 38, 38, 0.45);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #c49a9a;
+}
+
+.home_page_button:hover {
+    background-color: green;
+    /* background: linear-gradient(90deg, #b53f3f, transparent) #52f321; */
+    border-radius: 5px;
+    transform: scale(1.2);
+}
+
+.container_home{
+    background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)
+}
+
+.div_hover:hover{
+    box-shadow: 0 0 20px 0 rgba(0,0,0,3);
+    transform: translateY(-20px);
+    background-color: rgb(231, 228, 228);
+    border-radius: 10px;
+}
+
+

@@ -50,7 +50,7 @@ class Appointment(models.Model):
     doctor_id = models.ForeignKey(Doctor,on_delete = models.CASCADE)
     consultation_fee = models.IntegerField()
     date = models.DateField(default=timezone.now().date(),null=True)
-    # time = models.TimeField(null=True)
+    # time = models.TimeField(null=True, choices=[('9.30-10.30','9.30-10.30'),('10.30-11.30','10.30-11.30'),('11.30-12.30')])
 
     def __str__(self) -> str:
         return self.Patient_id.name

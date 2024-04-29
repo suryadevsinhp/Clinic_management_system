@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .slide-right {
+            overflow: hidden;
+            white-space: nowrap;
+            /* Set initial position outside the viewport */
+            transform: translateX(100%);
+            animation: slide-in-out 4s ease infinite;
+        }
+
+        @keyframes slide-in-out {
+            0%, 100% {
+                transform: translateX(100%);
+            }
+            50% {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-right">
+        <h2>Text that slides in from the right and then out to the left</h2>
+    </div>
+</body>
+</html>

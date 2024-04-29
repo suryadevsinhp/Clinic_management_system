@@ -1,75 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- {% include 'basePage.html' %} -->
-{% include "basePage.html" %}
-{% include "navigation.html" %}
+  {% include "basePage.html" %}
 
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
+    <link rel="stylesheet" href="/static/clinic/css/clinic.css">
   </head>
 
-  <body style="background-color: rgb(25, 25, 25)">
-    <center>
-      <!-- {% block content %} -->
-      <h1 style="color: white">Home welcome Page</h1>
-      <!-- main heding navigation bar -->
-      <div style="background-color: rgb(76, 76, 77)">
+  <body>
+    {% include "navigation.html" %}
+<!-- Main Content -->
+    {% block content %}
+    <div>
+      <h1 style="color: white;">Home welcome Page</h1>
+      <!-- main heading navigation bar -->
+      <div>
         <br />
         <br />
-        <br />
-        <br />
-        <form action="{% url 'aboutUs' %}" method="post">
+        <div class="button_container">
+          <form action="{% url 'aboutUs' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button">About Us</button>
+          </form>
+          <br /> 
+          <form action="{% url 'addNewPatient' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button">Add Patient</button>
+          </form>
+          <br />
+          <form action="{% url 'addDoctor' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button">Add Doctor</button>
+          </form>
+          <br />
+          <form action="{% url 'addAppointment' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button">Add Appointment</button>
+          </form>
+          <br />
+          <form action="{% url 'addPrescription' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button">Add Prescription</button>
+          </form>
+          <br />
+          <form action="{% url 'addBilling' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button">Add Billing</button>
+          </form>
+          <br>
+
+        </div>
+        <!-- ***************** direct search bar is commented below ****************  -->
+        <!-- <form action="{% url 'allDetails' %}" method="post">
           {% csrf_token %}
-          <button type="submit">About Us</button>
-        </form>
-        <br />
-        <form action="{% url 'addNewPatient' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Add Patient</button>
-        </form>
-        <br />
-        <form action="{% url 'addDoctor' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Add Doctor</button>
-        </form>
-        <br />
-        <form action="{% url 'addAppointment' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Add Appointment</button>
-        </form>
-        <br />
-        <form action="{% url 'addPrescription' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Add Prescription</button>
-        </form>
-        <br />
-        <form action="{% url 'addBilling' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Add Billing</button>
-        </form>
-        <br />
-        <form action="{% url 'addReview' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Add Review</button>
-        </form>
-        <br />
-        <form action="{% url 'allDetails' %}" method="post">
-          {% csrf_token %}
-          <input
-            type="text"
-            placeholder="Enter ID of patient"
-            name="patientID"
-            id="patientID"
-          />
+          <input type="text" placeholder="Enter ID of patient" name="patientID" id="patientID" />
           <button type="submit">Find</button>
-        </form>
-        <br /> 
+        </form>-->
+        <br />
         <br />
       </div>
-      <!-- {% endblock %} -->
-    </center>
+    </div>
+    {% endblock %}
   </body>
-  </html>
   {% include "footer.html" %}
+
+</html>
