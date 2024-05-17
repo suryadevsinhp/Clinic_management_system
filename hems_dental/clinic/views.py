@@ -245,7 +245,7 @@ def view_doctor(request):
 
 def delete_doctor(request, did):
     if not request.user.is_authenticated:
-        return redirect('login_admin')
+        return redirect('login_admin') 
     doctor = Doctor.objects.filter(doctor_id=did)
     doctor.delete()    
     # remaining_doctors = Doctor.objects.all()

@@ -4,29 +4,36 @@
 
 
 {% if error == "no" %}
-    <script>
-        alert("Logged in Successfully ! ");
-        window.location = "{% url 'index' %}";
-    </script>
+<script>
+    alert("Logged in Successfully ! ");
+    window.location = "{% url 'index' %}";
+</script>
 {% endif %}
 {% if error == "yes" %}
-    <script>
-        alert("Invalid login crediantials. Please...Try Again !! ");
-    </script>
+<script>
+    alert("Invalid login crediantials. Please...Try Again !! ");
+</script>
 {% endif %}
 
 
 <div class="container">
-    <h2 class="text-center">Admin Login</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <label>Admin Name</label>
-        <input type="text" class="form-control" name="username" id="">
-        <label>Password</label>
-        <input type="password " class="form-control" name="password" id="">
+    <div>
+        <h1 style="text-align: center;">Login Page</h1><br />
+    </div>
+    <div class="col-6">
 
-        <input type="submit" value="login" class="form-control btn btn-primary">
-    </form>
+    </div>
+    <div class="row">
+        <form method="POST">
+            {% csrf_token %}
+            <label>Admin Name</label>
+            <input type="text" class="form-control" name="username" id="">
+            <label>Password</label>
+            <input type="password " class="form-control" name="password" id="">
+<br>
+            <input type="submit" value="login" class="form-control btn btn-primary">
+        </form>
+    </div>
 </div>
 
 {% endblock content %}

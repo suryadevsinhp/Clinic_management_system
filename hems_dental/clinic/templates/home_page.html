@@ -20,9 +20,9 @@
         <br />
         <br />
         <div class="button_container">
-          <form action="{% url 'aboutUs' %}" method="post">
+          <form action="{% url 'index' %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="home_page_button">About Us</button>
+            <button type="submit" class="home_page_button">Admin Dashboard</button>
           </form>
           <br /> 
           <form action="{% url 'addNewPatient' %}" method="post">
