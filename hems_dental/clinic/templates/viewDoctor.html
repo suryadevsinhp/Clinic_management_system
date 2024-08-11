@@ -1,36 +1,76 @@
-{% include "basePage.html" %}
+{% extends "basePage.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-<!DOCTYPE html>
-<html lang="en">
+    .table-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        max-width: 1200px;
+    }
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Doctors View</title>
-    </head>
+    .table th {
+        background-color: #343a40;
+        color: #fff;
+        font-weight: 500;
+    }
 
-    <body>
-        {% include "navigation.html" %}
-        <!-- Main Content -->
-        {% block content %}
-        <div>
-            <h2 class="homepage">View Doctor</h2>
-            <table class="table table-hover" id="example">
+    @media (max-width: 767px) {
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: background-color 0.3s ease;
+    }
+
+    .modal-dialog {
+        height: 90%;
+        max-width: 600px;
+    }
+
+    .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<!-- Main Content -->
+{% block content %}
+<div class="container my-5">
+    <div class="table-container">
+        <h2 class="mb-4 text-center">View Doctors</h2>
+        <div class="d-flex justify-content-end mb-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDoctorModal">
+                <i class="fas fa-user-md"></i> Add Doctor
+            </button>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover table-striped" id="doctorsTable">
                 <thead>
                     <tr>
-                        <th>Doctor_ID</th>
-                        <th>Doctors Name</th>
+                        <th>Doctor ID</th>
+                        <th>Name</th>
                         <th>Age</th>
-                        <th>Gender :</th>
-                        <th>Experince :</th>
-                        <th>Languages :</th>
-                        <th>Mobile No :</th>
-                        <th>Email_ID</th>
+                        <th>Gender</th>
+                        <th>Experience</th>
+                        <th>Languages</th>
+                        <th>Mobile No</th>
+                        <th>Email</th>
                         <th>Schedule</th>
                         <th>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -41,36 +81,81 @@
                         <td>{{i.age}}</td>
                         <td>{% if i.gender == 'M'%} Male {% else %}{{i.gender}}{% endif %}</td>
                         <td>{{i.experince}} Years</td>
-                        <td>{{i.languages}} </td>
-                        <td><a href="tel:{{i.mobile_number}}">{{i.mobile_number}} </a></td>
+                        <td>{{i.languages}}</td>
+                        <td><a href="tel:{{i.mobile_number}}">{{i.mobile_number}}</a></td>
                         <td><a href="mailto:{{i.email}}">{{i.email}}</a></td>
                         <td>{{i.schedule}}</td>
-                        <td colspan="2">
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
-                                    <a href="{% url 'deleteDoctor' did=i.doctor_id %}"
-                                        onclick="return confirm('Are you sure you want to delete?')"
-                                        class="btn btn-danger">Delete</a>
-                                </li>
-                            </ul>
-
-                            <UL class="navbar-nav ml-auto">
-                                <li class="nav-item">
-                                    <a href="{% url 'updateDoctor' did=i.doctor_id %}"
-                                        onclick="return confirm('Are you sure you want to update?')"
-                                        class="btn btn-primary">Update</a>
-                                </li>
-                            </UL>
-
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'deleteDoctor' did=i.doctor_id %}"
+                                    onclick="return confirm('Are you sure you want to delete?')"
+                                    class="btn btn-danger btn-sm">Delete</a>
+                                <a href="{% url 'updateDoctor' did=i.doctor_id %}"
+                                    onclick="return confirm('Are you sure you want to update?')"
+                                    class="btn btn-primary btn-sm">Update</a>
+                            </div>
                         </td>
-                        {% endfor %}
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
-            <br><br><br><br><br>
         </div>
-        {% endblock content %}
-    </body>
-    {% include "footer.html" %}
+    </div>
+</div>
 
-</html>
+
+
+
+<!-- Add Doctor Modal -->
+<div class="modal fade" id="addDoctorModal" tabindex="-1" aria-labelledby="addDoctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addDoctorModalLabel">Add New Doctor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="formContainer">
+                    <form action="{% url 'addDoctor' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                {{ docForm.as_table }}
+                                <tr>
+                                    <td colspan="2">
+                                        <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#doctorsTable').DataTable();
+
+        // Load form content when the modal is opened
+        $('#addDoctorModal').on('shown.bs.modal', function () {
+            $.ajax({
+                url: "{% url 'addDoctor' %}",
+                success: function (data) {
+                    $('#formContainer').html(data);
+                }
+            });
+        });
+    });
+   
+</script>

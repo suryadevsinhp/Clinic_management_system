@@ -1,0 +1,81 @@
+{% extends "basePage.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .dashboard-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5>Total Appointments</h5>
+                <h3>{{ total_appointments }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5>Total Patients</h5>
+                <h3>{{ total_patients }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5>Average Age</h5>
+                <h3>{{ average_age.age__avg|floatformat }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="dashboard-card">
+                <h5>Patients by Gender</h5>
+                <ul class="list-unstyled">
+                    {% for gender in patients_by_gender %}
+                    <li>{{ gender.gender }}: {{ gender.count }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="dashboard-card">
+                <h5>Appointments by Date</h5>
+                <canvas id="appointmentChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/chart.js' %}"></script>
+<script>
+    var ctx = document.getElementById('appointmentChart').getContext('2d');
+    var appointmentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for appointment in appointments %}'{{ appointment.date|date:"M d" }}',{% endfor %}],
+            datasets: [{
+                label: 'Appointments',
+                data: [{% for appointment in appointments %}{{ appointment.count }},{% endfor %}],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

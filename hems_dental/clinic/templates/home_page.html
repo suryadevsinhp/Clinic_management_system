@@ -6,64 +6,80 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
-    <link rel="stylesheet" href="/static/clinic/css/clinic.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="/static/clinic/css/clinic.css" />
+    <style>
+      body {
+        background-image: url('https://source.unsplash.com/random/1920x1080/?medical');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      .content {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 1s;
+      }
+
+      .home_page_button {
+        animation: pulse 2s infinite;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        width: 225px;
+      }
+    </style>
   </head>
 
   <body>
-    {% include "navigation.html" %}
-<!-- Main Content -->
+    <!-- Main Content -->
     {% block content %}
-    <div>
-      <h1 style="color: white;">Home welcome Page</h1>
-      <!-- main heading navigation bar -->
-      <div>
-        <br />
-        <br />
-        <div class="button_container">
-          <form action="{% url 'index' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="home_page_button">Admin Dashboard</button>
-          </form>
-          <br /> 
-          <form action="{% url 'addNewPatient' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="home_page_button">Add Patient</button>
-          </form>
-          <br />
-          <form action="{% url 'addDoctor' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="home_page_button">Add Doctor</button>
-          </form>
-          <br />
-          <form action="{% url 'addAppointment' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="home_page_button">Add Appointment</button>
-          </form>
-          <br />
-          <form action="{% url 'addPrescription' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="home_page_button">Add Prescription</button>
-          </form>
-          <br />
-          <form action="{% url 'addBilling' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="home_page_button">Add Billing</button>
-          </form>
-          <br>
+    <div class="container my-5">
+      <div class="content">
+        <h1 class="text-center animate__animated animate__fadeInDown">Home Welcome Page</h1>
+        <!-- main heading navigation bar -->
 
+        <div class="button_container d-flex flex-wrap justify-content-center" style="height: 100%;">
+          <form action="{% url 'admin_dashboard' %}" method="post" class="mb-3 mx-2">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button btn btn-primary btn-lg animate__animated animate__pulse">Admin
+              Dashboard</button>
+          </form>
+          <form action="{% url 'addNewPatient' %}" method="post" class="mb-3 mx-2">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button btn btn-primary btn-lg animate__animated animate__pulse">Add
+              Patient</button>
+          </form>
+          <form action="{% url 'addDoctor' %}" method="post" class="mb-3 mx-2">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button btn btn-primary btn-lg animate__animated animate__pulse">Add
+              Doctor</button>
+          </form>
+          <form action="{% url 'addAppointment' %}" method="post" class="mb-3 mx-2">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button btn btn-primary btn-lg animate__animated animate__pulse">Add
+              Appointment</button>
+          </form>
+          <form action="{% url 'addPrescription' %}" method="post" class="mb-3 mx-2">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button btn btn-primary btn-lg animate__animated animate__pulse">Add
+              Prescription</button>
+          </form>
+          <form action="{% url 'addBilling' %}" method="post" class="mb-3 mx-2">
+            {% csrf_token %}
+            <button type="submit" class="home_page_button btn btn-primary btn-lg animate__animated animate__pulse">Add
+              Billing</button>
+          </form>
         </div>
-        <!-- ***************** direct search bar is commented below ****************  -->
-        <!-- <form action="{% url 'allDetails' %}" method="post">
-          {% csrf_token %}
-          <input type="text" placeholder="Enter ID of patient" name="patientID" id="patientID" />
-          <button type="submit">Find</button>
-        </form>-->
-        <br />
         <br />
       </div>
     </div>
+
     {% endblock %}
   </body>
-  {% include "footer.html" %}
 
 </html>

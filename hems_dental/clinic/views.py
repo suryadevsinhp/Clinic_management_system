@@ -12,19 +12,19 @@ from django.contrib.auth import login , logout , authenticate
 def aboutUs(request):
     return render (request,'aboutUs.html')
 
-def home(request):
-    return render(request,'home.html')
+# def home(request):
+#     return render(request,'home.html')
 
-def index(request):
-    return render(request,'index.html')
+def admin_dashboard(request):
+    return render(request,'admin_dashboard.html')
 
 def contactus(request):
     return render(request,'contactus.html')
 
-def index(request):
+def admin_dashboard(request):
     if not request.user.is_authenticated:
         return redirect('/login_admin/')
-    return render(request,'index.html')
+    return render(request,'admin_dashboard.html')
 
 def login_admin(request):
     error = ""
@@ -62,17 +62,30 @@ def view_patient(request):
     return render(request,'viewPatient.html',pat_obj)  
 
 
-def updatePatient(request,pid):
-    patient = Patient.objects.get(patient_id = pid)
-    form = Patient_form(instance=patient)
-    if request.method=='POST':
-        form =Patient_form(request.POST, instance=patient)
-        if form.is_valid():
-            form.save()
-            return redirect('viewPatients') 
+def updatePatient(request, pid):
+    patient = Patient.objects.get(patient_id=pid)
+    if request.method == 'POST':
+        patient.patient_name = request.POST.get('patient_name')
+        patient.date_of_birth = request.POST.get('date_of_birth')
+        patient.gender = request.POST.get('gender')
+        patient.blood_group = request.POST.get('blood_group')
+        patient.email_id = request.POST.get('email_id')
+        patient.address = request.POST.get('address')
+        patient.mobile_number = request.POST.get('mobile_number')
+        patient.save()
+        return redirect('viewPatients')
     else:
-        args =Patient_form(instance=patient)
-        return render(request,'savePatient.html',{'args':args})        
+        context = {
+            'patient_name': patient.name,
+            'date_of_birth': patient.date_of_birth,
+            'gender': patient.gender,
+            'blood_group': patient.blood_group,
+            'email_id': patient.email_id,
+            'address': patient.address,
+            'mobile_number': patient.mobile_number,
+        }
+        return render(request, 'savePatient.html', context)
+    
 
 
 def delete_patient(request, pid):
@@ -91,7 +104,40 @@ def view_appointment(request):
     appointment = Appointment.objects.all()
     p_name = Patient.objects.all()
     doc_name = Doctor.objects.all()
-    return render(request,'viewAppointment.html', {'appointment':appointment, 'p_name':p_name, 'doc_name':doc_name})
+    if request.method == 'POST':
+        appForm = AppointmentForm(request.POST)
+        if appForm.is_valid():
+            appForm.save()
+            return redirect('view_appointment')
+    else:
+        appForm = AppointmentForm()
+    context = {
+        'appointment': appointment,
+        'p_name': p_name,
+        'doc_name': doc_name,
+        'appForm': appForm
+    }
+    return render(request, 'viewAppointment.html', context)
+
+
+# view for all Appointment is below:
+def addAppointment(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
+    if request.method =='POST':
+        appForm = AppointmentForm(request.POST)
+        if appForm.is_valid():
+            appForm.save()
+            # return HttpResponse("Appointment is saved")
+            return redirect('viewAppointment')
+
+    
+    else:
+        appForm=AppointmentForm()
+        return render(request, 'saveAppointment.html', {'appForm':appForm} )
+    return render(request, 'saveAppointment.html', {'appForm':appForm} )
+
+
 
 def delete_appointment(request, aid):
     if not  request.user.is_authenticated:
@@ -104,7 +150,14 @@ def view_prescription(request):
     if not request.user.is_authenticated:
         return redirect('login_admin')
     prescription = Prescription.objects.all()
-    return render (request,"viewPrescription.html",{"prescription":prescription})
+    if request.method == 'POST':
+        form = PrescriptionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('viewPrescription')
+    else:
+        form = PrescriptionForm()
+    return render(request, "viewPrescription.html", {"prescription": prescription, "form": form})
 
 
 def delete_prescription(request, presc_id):
@@ -118,7 +171,32 @@ def view_billing(request):
     if not request.user.is_authenticated:
         return redirect('login_admin')
     billing = Billing.objects.all()
-    return  render(request,'viewBilling.html',{'billing':billing})
+    if request.method == 'POST':
+        form = BillingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('view_billing')
+    else:
+        form = BillingForm()
+   
+    return render(request, 'viewBilling.html',{'billing': billing,'form': form})
+
+
+# view for billimg
+def addBilling(request):
+    if not request.user.is_authenticated:
+        return redirect('login_admin')
+    if request.method == 'POST':
+        form = BillingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('viewBilling')
+        
+    else:
+        form = BillingForm
+    return render(request,'saveBilling.html',{'form':form})
+
+
 
 def delete_billing(request, bid):
     bill = Billing.objects.filter(bill_id=bid)
@@ -148,17 +226,33 @@ def all_details_display(request, pid):
 class PatientListView(ListView):
     #this class is made for displaying patents added data
     model = Patient
-    template_name = 'patient_list.html'  # Replace with your template name
+    template_name = 'patient_list.html' 
     context_object_name = 'patients'
+
+# def addNewPatient(request):
+#     if not request.user.is_authenticated:
+#         return redirect('login_admin')
+#     return render(request,'savePatient.html',)
+
+
+
 
 def addNewPatient(request):
     if not request.user.is_authenticated:
         return redirect('login_admin')
-    return render(request,'savePatient.html',)
+    if request.method == 'POST':
+        form = Patient_form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('viewPatient')
+    else:
+        form = Patient_form()
+    return render(request, 'patient_form.html', {'form': form})
+
 
 
 def home_page(request):
-    return render(request,'home_page.html')
+    return render(request,'basePage.html')
 
 # view for all save patients is below:
 # # #------------ * Html form is used to get form data * ---------------------------
@@ -239,8 +333,16 @@ def view_doctor(request):
     if not request.user.is_authenticated:
         return redirect('login_admin')
     doctors = Doctor.objects.all()
-    doc_obj = { 'doctor' : doctors }
-    return render(request, 'viewDoctor.html',doc_obj) 
+    doc_obj = {'doctor': doctors}
+    if request.method == 'POST':
+        docForm = Doctor_form(request.POST)
+        if docForm.is_valid():
+            docForm.save()
+            return redirect('viewDoctor')
+    else:
+        docForm = Doctor_form()
+    doc_obj['docForm'] = docForm
+    return render(request, 'viewDoctor.html', doc_obj)
 
 
 def delete_doctor(request, did):
@@ -252,20 +354,6 @@ def delete_doctor(request, did):
     # return render(request, 'viewDoctor.html', {'doctor': remaining_doctors})  # # to skip this 2 lines we can use direct redirect() and return html page 
     return redirect('viewDoctor')
 
-# view for all Appointment is below:
-def addAppointment(request):
-    if not request.user.is_authenticated:
-        return redirect('login_admin')
-    if request.method =='POST':
-        appForm = AppointmentForm(request.POST)
-        if appForm.is_valid():
-            appForm.save()
-            return HttpResponse("Appointment is saved")
-    
-    else:
-        appForm=AppointmentForm()
-        return render(request, 'saveAppointment.html', {'appForm':appForm} )
-    return render(request, 'saveAppointment.html', {'appForm':appForm} )
 
 
 # view for all Prescription is below:
@@ -286,20 +374,6 @@ def addPrescription(request):
     return render(request,'savePrescription.html', {'form':form, 'submitted':submitted})
 
 
-# view for billimg
-def addBilling(request):
-    if not request.user.is_authenticated:
-        return redirect('login_admin')
-    if request.method == 'POST':
-        form = BillingForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('viewBilling')
-        
-    else:
-        form = BillingForm
-        
-    return render(request,'saveBilling.html',{'form':form})
 
 
 #view for review

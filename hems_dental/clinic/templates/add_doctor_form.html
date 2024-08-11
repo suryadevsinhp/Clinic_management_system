@@ -1,0 +1,15 @@
+{% load crispy_forms_tags %}
+
+<form action="{% url 'addDoctor' %}" method="POST">
+    {% csrf_token %}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            {{ docForm.as_table }}
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

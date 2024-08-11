@@ -1,52 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "basePage.html" %}
+{% load crispy_forms_tags %}
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Appointments</title>
-    </head>
-    {% include "basePage.html" %}
-    {% include "navigation.html" %}
-    {% load static %}
+<!-- Bootstrap CSS  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+<!-- Custom CSS -->
 
-    <body>
-        {% block content %}
-        <div>
-            <div class="main_div">
-                <h2 class="homepage">Appointments View Page</h2>
-                <div>
-                    <table class="table table-hover" id="example">
-                        <thead>
-                            <tr>
-                                <th>Appointment ID</th>
-                                <th>Patient Name</th>
-                                <th>Doctor Name</th>
-                                <th>Purpose Of Visit</th>
-                                <th>Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in appointment %}
-                            <tr>
-                                <td>{{ i.appointment_id }}</td>
-                                <td>{{ i.Patient_id.name }}</td>
-                                <td>{{ i.doctor_id.name }}</td>
-                                <td>{{ i.specialization }}</td>
-                                <td>{{ i.date }}</td>
-                                <td>
-                                    <a href="{% url 'deleteAppointment' aid=i.appointment_id %}" onclick="return confirm ('Are you sure you want to delete appointment ?')" class="btn btn-danger">Delete</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .table-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+{% block content %}
+<div class="container my-5">
+    <div class="table-container">
+        <h2 class="mb-4">Appointments View Page</h2>
+        <div class="d-flex justify-content-end mb-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAppointmentModal">
+                <i class="fas fa-calendar-plus"></i> Add Appointment
+            </button>
+        </div>
+        <table class="table table-hover table-striped" id="appointmentsTable">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Patient Name</th>
+                    <th>Doctor Name</th>
+                    <th>Purpose Of Visit</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in appointment %}
+                <tr>
+                    <td>{{ i.appointment_id }}</td>
+                    <td>{{ i.Patient_id.name }}</td>
+                    <td>{{ i.doctor_id.name }}</td>
+                    <td>{{ i.specialization }}</td>
+                    <td>{{ i.date }}</td>
+                    <td>
+                        <a href="{% url 'deleteAppointment' aid=i.appointment_id %}"
+                            onclick="return confirm('Are you sure you want to delete appointment?')"
+                            class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Appointment Modal -->
+<div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAppointmentModalLabel">Add New Appointment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form content will be loaded here -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-md-8">
+                        <div class="form-container">
+                            <h1 class="text-center mb-4">ADD NEW APPOINTMENT FORM</h1>
+                            <form action="{% url 'addAppointment' %}" method="POST">
+                                {% csrf_token %}
+                                {{ appForm|crispy }}
+                                <div class="text-center">
+                                    <input type="submit" value="Submit" class="btn btn-primary">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+                 
             </div>
         </div>
-        {% endblock content %}
-        {% include "footer.html" %}
-    </body>
+    </div>
+</div>
 
-</html>
+
+{% endblock content %}
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#appointmentsTable').DataTable();
+
+        // Load form content when the modal is opened
+        $('#addAppointmentModal').on('shown.bs.modal', function () {
+            $.ajax({
+                url: "{% url 'addAppointment' %}",
+                success: function (data) {
+                    $('.modal-body').html(data);
+                }
+            });
+        });
+    });
+</script>

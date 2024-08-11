@@ -1,10 +1,7 @@
-{% load static %}
-{% include "basePage.html" %}
-{% include "navigation.html" %}
+{% extends "basePage.html" %}
 
-<style>
-    
-</style>
+{% load static %}
+
 
 {% block content %}
 <div class="container" style="margin-top: 50px;">
@@ -28,5 +25,4 @@
         </div>
     </div>
 </div>
-{% include "footer.html" %}
 {% endblock content %}

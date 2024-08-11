@@ -5,13 +5,13 @@ from .forms import *
 
 urlpatterns = [
     # yt
-    path('home/',home,name ='home'),
+    # path('home/',home,name ='home'),
     path('aboutus/', aboutUs, name='aboutUs'),
     path('contactus/', contactus, name='contactus'),
     
     path('login_admin/', login_admin, name='login_admin'),
     path('logout_admin/', logout_admin, name='logout_admin'),
-    path('index/', index, name='index'),
+    path('admin_dashboard/', admin_dashboard, name='admin_dashboard'),
     path('viewDoctor/', view_doctor, name='viewDoctor'),
     path('viewPatient/', view_patient, name='viewPatient'),
     path('viewAppointment/', view_appointment, name='viewAppointment'),
@@ -35,7 +35,7 @@ urlpatterns = [
 
     # ---------------------
     path('',home_page, name='home_page'),
-    path('index',index, name='index'),
+    path('admin_dashboard',admin_dashboard, name='admin_dashboard'),
  
     path('patiententry/',save_patient, name="patient_entery"),
     path('doctor/', addDoctor, name='addDoctor'),
@@ -56,4 +56,5 @@ urlpatterns = [
 
 
     # Add other URL patterns as needed
+    
 ]

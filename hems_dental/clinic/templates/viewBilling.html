@@ -1,47 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "basePage.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Billing view</title>
-    </head>
+<style>
+    .table-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
 
-    <body>
-        {% include "basePage.html" %}
-        {% include "navigation.html" %}
-        {% load static %}
-        <div>
-            <div>
-                <h2 class="homepage">Billing view</h2>
+
+<div class="container my-5">
+    <div class="table-container">
+        <h2 class="mb-4 text-center">Billing View</h2>
+        <div class="d-flex justify-content-end mb-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBillingModal">
+                <i class="fas fa-plus"></i> Add Billing
+            </button>
+        </div>
+        <table class="table table-hover table-striped" id="billingTable">
+
+            <thead>
+                <tr>
+                    <th>Billing ID</th>
+                    <th>Patient ID</th>
+                    <th>Patient Name</th>
+                    <th>Billing Amount</th>
+                    <th>Remarks</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in billing %}
+                <tr>
+                    <td>{{i.bill_id}}</td>
+                    <td>{{i.patient_id}}</td>
+                    <td>{{i.patient_id.name}}</td>
+                    <td>Rs {{i.amount}}</td>
+                    <td>{{i.remarks}}</td>
+                    <td>{{i.date|date:"Y-m-d H:i:s"}}</td>
+                    <td>
+                        <a href="/deleteBilling/{{i.bill_id}}"
+                            onclick="return confirm('Are you sure you want to delete this bill data?')"
+                            class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </table>
+    </div>
+</div>
+
+<!-- Add Billing Modal -->
+<div class="modal fade" id="addBillingModal" tabindex="-1" aria-labelledby="addBillingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBillingModalLabel">Add New Billing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div>
-                <table class="table table-hover" id="example">
-                    <thead>
-                        <th>Billing ID</th>
-                        <th>Patient ID</th>
-                        <th>Patient Name</th>
-                        <th>Billing Amount</th>
-                        <th>Remarks</th>
-                        <Th>Date</Th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                        {% for i in billing %}
-                        <td>{{i.bill_id}}</td>
-                        <td>{{i.patient_id}}</td>
-                        <td>{{i.patient_id.name}}</td>
-                        <td>Rs {{i.amount}}</td>
-                        <td>{{i.remarks}}</td>
-                        <td>{{i.date|date:"Y-m-d H:i:s"}}</td>
-                        <td><a href="/deleteBilling/{{i.bill_id}}" onclick="return confirm('Are you sure you want to delete bill data ?')"class="btn btn-danger">Delete</a></td>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="modal-body">
+                <!-- Form content will be loaded here -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-md-8">
+                        <div class="form-container">
+                            <h1 class="text-center mb-4">ADD NEW BILLING FORM</h1>
+                            <form action="{% url 'addBilling' %}" method="POST">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <div class="text-center">
+                                    <input type="submit" value="Submit" class="btn btn-primary">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        {% include "footer.html" %}
+    </div>
+</div>
+{% endblock content %}
 
-    </body>
 
-</html>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#billingTable').DataTable();
+
+        // Load form content when the modal is opened
+        $('#addBillingModal').on('shown.bs.modal', function () {
+            $.ajax({
+                url: "{% url 'addBilling' %}",
+                success: function (data) {
+                    $('.modal-body').html(data);
+                }
+            });
+        });
+    });
+</script>

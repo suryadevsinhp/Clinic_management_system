@@ -1,19 +1,30 @@
-<html>
-    <head>
-        <title> Add Review </title>
-    </head>
-    <body>
-        <center>
-            <h1>Review data will be added here :</h1>
-            <div>
+{% extends "basePage.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+    .form-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="form-container">
+                <h1 class="text-center mb-4">Add Review</h1>
                 <form action="" method="post">
                     {% csrf_token %}
-
-                    {{form.as_p}}
-
-                    <input type="submit" value="submit">
+                    {{ form|crispy }}
+                    <div class="text-center">
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </div>
                 </form>
             </div>
-        </center>
-    </body>
-</html>
+        </div>
+    </div>
+</div>
+{% endblock content %}
