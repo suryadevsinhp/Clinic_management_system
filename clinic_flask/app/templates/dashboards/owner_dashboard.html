@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Owner Dashboard</h2>
+<div class="row g-3">
+  <div class="col-md-3"><div class="card"><div class="card-body">Patients: {{ stats.patients }}</div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">Doctors: {{ stats.doctors }}</div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">Appointments: {{ stats.appointments }}</div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">Bills: {{ stats.billing }}</div></div></div>
+</div>
+{% endblock %}

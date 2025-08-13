@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Reception Dashboard</h2>
+<table class="table table-striped">
+  <thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Specialization</th></tr></thead>
+  <tbody>
+  {% for a in appointments %}
+    <tr>
+      <td>{{ a.patient_name or a.patient_id }}</td>
+      <td>{{ a.doctor_name or a.doctor_id }}</td>
+      <td>{{ a.date }}</td>
+      <td>{{ a.specialization }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="4">No recent appointments</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
