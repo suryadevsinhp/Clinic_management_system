@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 import os.path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,8 +86,12 @@ WSGI_APPLICATION = 'hems_dental.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': os.environ.get('MONGODB_DB', 'hems_dental'),
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': os.environ.get('MONGODB_URI', 'mongodb://127.0.0.1:27017'),
+        }
     }
 }
 

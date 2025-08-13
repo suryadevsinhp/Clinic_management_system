@@ -49,7 +49,7 @@ class Appointment(models.Model):
     specialization = models.CharField(max_length=50)
     doctor_id = models.ForeignKey(Doctor,on_delete = models.CASCADE)
     consultation_fee = models.IntegerField()
-    date = models.DateField(default=timezone.now().date(),null=True)
+    date = models.DateField(default=timezone.now, null=True)
     # time = models.TimeField(null=True, choices=[('9.30-10.30','9.30-10.30'),('10.30-11.30','10.30-11.30'),('11.30-12.30')])
 
     def __str__(self) -> str:
@@ -86,7 +86,7 @@ class Billing(models.Model):
     patient_id = models.ForeignKey(Patient,on_delete=models.CASCADE)
     bill_id = models.AutoField(primary_key=True)
     date = models.DateTimeField(auto_now=True)
-    amount = models.IntegerField(max_length=10)
+    amount = models.IntegerField()
     remarks = models.CharField(max_length=250)
 
     def __str__(self) -> str:
