@@ -1,6 +1,7 @@
 from django.db import models
 from phonenumber_field import phonenumber # pip install phonenumber_field
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Hems Clinic Models are made here.
 
@@ -67,7 +68,7 @@ class Prescription(models.Model):
     medicine = models.CharField(max_length=500, default='no specific medicine given')
     advice = models.CharField(max_length=100, default='no specific advice')
     def __str__(self) -> str:
-        return self.prescription_id.name
+        return f"Prescription {self.prescription_id} - {self.patient_id.name}"
 
 class Admin(models.Model):
     admin_id = models.AutoField(primary_key=True)
@@ -100,6 +101,20 @@ class Review(models.Model):
 
     def __str__(self) -> str:
         return self.patient_id.name
+
+
+class StaffProfile(models.Model):
+    class Role(models.TextChoices):
+        OWNER = "OWNER", "Owner"
+        RECEPTION = "RECEPTION", "Reception"
+        DOCTOR = "DOCTOR", "Doctor"
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="staff_profile")
+    role = models.CharField(max_length=20, choices=Role.choices)
+    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True, help_text="Link if role is Doctor")
+
+    def __str__(self) -> str:
+        return f"{self.user.username} - {self.role}"
 
 
     

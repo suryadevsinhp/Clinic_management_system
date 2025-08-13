@@ -1,0 +1,10 @@
+{% extends 'basePage.html' %}
+{% block content %}
+<h2>Owner Dashboard</h2>
+<div class="row">
+  <div class="col">Patients: {{ stats.patients }}</div>
+  <div class="col">Doctors: {{ stats.doctors }}</div>
+  <div class="col">Appointments: {{ stats.appointments }}</div>
+  <div class="col">Bills: {{ stats.billing }}</div>
+</div>
+{% endblock %}

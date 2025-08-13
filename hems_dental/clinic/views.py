@@ -4,6 +4,7 @@ from .models import *
 from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import login , logout , authenticate
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -25,6 +26,35 @@ def admin_dashboard(request):
     if not request.user.is_authenticated:
         return redirect('/login_admin/')
     return render(request,'admin_dashboard.html')
+
+@login_required
+def owner_dashboard(request):
+    profile = getattr(request.user, "staff_profile", None)
+    if not profile or profile.role != StaffProfile.Role.OWNER:
+        return redirect('login_admin')
+    stats = {
+        'patients': Patient.objects.count(),
+        'doctors': Doctor.objects.count(),
+        'appointments': Appointment.objects.count(),
+        'billing': Billing.objects.count(),
+    }
+    return render(request, 'dashboards/owner_dashboard.html', {'stats': stats})
+
+@login_required
+def reception_dashboard(request):
+    profile = getattr(request.user, "staff_profile", None)
+    if not profile or profile.role != StaffProfile.Role.RECEPTION:
+        return redirect('login_admin')
+    todays_apps = Appointment.objects.all().order_by('-date')[:20]
+    return render(request, 'dashboards/reception_dashboard.html', {'appointments': todays_apps})
+
+@login_required
+def doctor_dashboard(request):
+    profile = getattr(request.user, "staff_profile", None)
+    if not profile or profile.role != StaffProfile.Role.DOCTOR:
+        return redirect('login_admin')
+    apps = Appointment.objects.filter(doctor_id=profile.doctor).order_by('-date') if profile.doctor else Appointment.objects.none()
+    return render(request, 'dashboards/doctor_dashboard.html', {'appointments': apps})
 
 def login_admin(request):
     error = ""

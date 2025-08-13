@@ -1,0 +1,18 @@
+{% extends 'basePage.html' %}
+{% block content %}
+<h2>Doctor Dashboard</h2>
+<table class="table">
+  <thead><tr><th>Patient</th><th>Date</th><th>Specialization</th></tr></thead>
+  <tbody>
+  {% for a in appointments %}
+    <tr>
+      <td>{{ a.Patient_id.name }}</td>
+      <td>{{ a.date }}</td>
+      <td>{{ a.specialization }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="3">No assigned appointments</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
